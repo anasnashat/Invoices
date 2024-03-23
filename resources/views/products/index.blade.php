@@ -9,7 +9,7 @@
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 @endsection
-@section('title','الاقسام')
+@section('title','المنتجات')
 @section('page-header')
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
@@ -78,7 +78,7 @@
                             @foreach($products as $product)
                                 <tr>
                                     <td>{{ $product->id }}</td>
-                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->product_name }}</td>
                                     <td>{{ $product->description }}</td>
                                     <td>
                                         <div class="row">
@@ -107,17 +107,26 @@
                                                 <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form method="post" action="{{ route('products.update', $product->id) }}">
+                                                <form method="post" action="{{ route('products.update', $product) }}">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="form-group">
                                                         <label for="nameField{{ $product->id }}">اسم المنتج</label>
-                                                        <input type="text" class="form-control" value="{{ $product->name }}" name="name" id="nameField{{ $product->id }}" placeholder="اسم المنتج">
+                                                        <input type="text" class="form-control" value="{{ $product->product_name }}" name="product_name" id="nameField{{ $product->id }}" placeholder="اسم المنتج">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="descriptionField{{ $product->id }}">وصف المنتج/ملاحظات</label>
                                                         <textarea class="form-control" name="description" id="descriptionField{{ $product->id }}" rows="3" placeholder="اضف وصف للمنتج">{{ $product->description }}</textarea>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label for="sectionField{{ $product->id }}">قسم المنتج</label>
+                                                        <select class="form-control" name="section_id" id="sectionField{{ $product->id }}">
+                                                            @foreach($sections as $section)
+                                                                <option value="{{ $section->id }}" {{ $product->section_id == $section->id ? 'selected' : '' }}>{{ $section->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn ripple btn-success" type="submit">تعديل المنتج</button>
@@ -137,7 +146,7 @@
                                             <div class="modal-body">
                                                 <div class="alert alert-danger "> هل انت متاكد من حذف هذا المنتج </div>
 
-                                                <form method="post" action="{{ route('products.destroy', $product->id) }}">
+                                                <form method="post" action="{{ route('products.destroy', $product) }}">
                                                 @csrf
                                                 @method('delete')
                                             </div>
@@ -181,11 +190,19 @@
                         @csrf
                         <div class="form-group">
                             <label for="nameField">اسم المنتج</label>
-                            <input type="text" class="form-control" name="name" id="nameField" placeholder="اسم المنتج">
+                            <input type="text" class="form-control" name="product_name" id="nameField" placeholder="اسم المنتج">
                         </div>
                         <div class="form-group">
                             <label for="descriptionField">وصف المنتج/ملاحظات</label>
                             <textarea class="form-control" name="description" id="descriptionField" rows="3" placeholder="اضف وصف للمنتج"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="sectionField{{ $product->id }}">قسم المنتج</label>
+                            <select class="form-control" name="section_id" id="sectionField{{ $product->id }}">
+                                @foreach($sections as $section)
+                                    <option value="{{ $section->id }}" {{ $product->section_id == $section->id ? 'selected' : '' }}>{{ $section->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="modal-footer">
