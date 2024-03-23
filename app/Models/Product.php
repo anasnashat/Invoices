@@ -8,15 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['product_name', 'description', 'section_id'];
+    protected $fillable = ['product_name', 'description','user_id' ,'section_id','deleted_at'];
 
 
-    public function section(){
+
+    public function section()
+    {
         return $this->belongsTo(Section::class);
     }
 
-    public function invoices(){
-        return $this->belongsToMany(Invoices::class);
+    public function invoices()
+    {
+        return $this->hasMany(Invoices::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 
