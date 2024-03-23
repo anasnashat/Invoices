@@ -54,14 +54,15 @@
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
                     @include('partials.alerts')
-
                     <div class="d-flex justify-content-between">
-
                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <a class="modal-effect btn btn-outline-success btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo1">اضافه قسم</a>
+                    <a class="modal-effect btn btn-success btn-block d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" href="#modaldemo1">
+                        <span class="mr-2">اضافه قسم</span> <!-- Text -->
+                        <i class="fas fa-plus-circle ml-2"></i> <!-- Icon -->
+                    </a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -82,21 +83,19 @@
                                     <td>{{ $section->description }}</td>
                                     <td>
                                         <div class="row">
-                                            <div class="col">
-                                                <button class="modal-effect btn btn-outline-primary btn-block d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" data-target="#modaledite{{ $section->id }}">
+                                            <div class="col-6 pr-1">
+                                                <button class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center mr-1" data-effect="effect-scale" data-toggle="modal" data-target="#modaledite{{ $section->id }}">
                                                     <span>تعديل</span>
-                                                    <i class="fas fa-edit ml-2"></i>
+                                                    <i class="fas fa-edit"></i>
                                                 </button>
                                             </div>
-                                            <div class="col">
-                                                <button class="modal-effect btn btn-outline-danger btn-block d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" data-target="#modaldelete{{ $section->id }}">
+                                            <div class="col-6">
+                                                <button class="modal-effect btn btn-outline-danger btn-sm d-flex justify-content-between align-items-center ml-1" data-effect="effect-scale" data-toggle="modal" data-target="#modaldelete{{ $section->id }}">
                                                     <span>حذف</span>
-                                                    <i class="fas fa-trash-alt ml-2"></i>
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </div>
                                         </div>
-
-
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modaledite{{ $section->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefault" aria-hidden="true">
@@ -149,10 +148,10 @@
                                         </div>
                                     </div>
                                 </div>
+
                             @endforeach
                             </tbody>
                         </table>
-
                         <div class="row m-lg-5">
                             <div class="col-12 col-sm-12 col-md-5">
                                 <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
@@ -188,10 +187,11 @@
                                 <textarea class="form-control" name="description" id="descriptionField" rows="3" placeholder="اضف وصف للقسم"></textarea>
                             </div>
 
-                    <div class="modal-footer">
-                        <button class="btn ripple btn-primary" type="submit">حفظ القسم</button>
-                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">اغلاق</button>
-                    </div>
+
+                            <div class="modal-footer">
+                                <button class="btn ripple btn-success" type="submit">حفظ القسم</button>
+                                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">اغلاق</button>
+                            </div>
                     </form>
 
                 </div>
