@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('product_name');
             $table->text('description')->nullable();
             $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
