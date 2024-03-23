@@ -24,14 +24,13 @@ class SectionController extends Controller
     public function store(SectionRequest $request)
     {
         try {
-            DB::beginTransaction(); // Start transaction
+            DB::beginTransaction();
 
             $validatedData = $request->validated();
             $validatedData['created_by'] = auth()->id();
             Section::create($validatedData);
 
-            DB::commit(); // Commit transaction
-
+            DB::commit();
             return redirect()->route('sections.index')->with('success', 'تمت الإضافة بنجاح');
         } catch (\Exception $e) {
             DB::rollback(); // Rollback transaction in case of error
