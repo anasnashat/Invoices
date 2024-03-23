@@ -11,7 +11,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,22 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'product_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'section_id' => 'required|exists:sections,id',
         ];
+    }
+
+    public function messages()
+    {
+        return [
+            'product_name.required' => 'حقل اسم المنتج مطلوب.',
+            'product_name.string' => 'يجب أن يكون اسم المنتج نصًا.',
+            'product_name.max' => 'يجب ألا يزيد اسم المنتج عن 255 حرفًا.',
+            'description.string' => 'يجب أن تكون الوصف نصًا.',
+            'section_id.required' => 'حقل القسم مطلوب.',
+            'section_id.exists' => 'القسم المحدد غير صالح.',
+        ];
+
     }
 }
