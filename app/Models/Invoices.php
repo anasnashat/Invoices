@@ -23,12 +23,19 @@ class Invoices extends Model
         'deleted_at',
     ];
 
-    public function section(){
-        return $this->belongsTo(Section::class);
-    }
-    public function product(){
-        return $this->hasOne(Product::class,'id');
+    public function section()
+    {
+        return $this->belongsTo(Section::class)->withDefault(['section_id' => 'deleted_section']);
     }
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class)->withDefault(['id' => 'deleted_product']);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
 }
