@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,8 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(20);
-        return view('products.index',compact('products'));
+        $products = Product::with('section')->paginate(20);
+        $sections = Section::all();
+        return view('products.index',['products' => $products, 'sections' => $sections]);
     }
 
     /**
@@ -22,18 +25,27 @@ class ProductController extends Controller
      */
     public function create()
     {
-        try {
-            DB::beginTransaction();
 
-        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+
+        try {
+            DB::beginTransaction();
+            $validatedData = $request->validated();
+            $validatedData['user_id'] = auth()->id();
+            Product::create($validatedData);
+            DB::commit();
+
+            return redirect()->route('products.index')->with('success', 'تمت الإضافة بنجاح');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route('products.index')->with('error', 'حدث خطأ أثناء إضافة القسم');
+        }
     }
 
     /**
@@ -55,9 +67,21 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+
+        try {
+            DB::beginTransaction();
+            $validatedData = $request->validated();
+            $product->update($validatedData);
+            DB::commit();
+
+            return redirect()->route('products.index')->with('success', 'تمت التعديل بنجاح');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route('products.index')->with('error', 'حدث خطأ أثناء تعديل القسم');
+        }
+
     }
 
     /**
@@ -65,6 +89,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        try {
+            DB::beginTransaction();
+            DB::commit();
+            return redirect()->route('products.index')->with('success', 'تم حذف هذا المتج بنجاح ');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('products.index')->with('error', 'حدث خطأ أثناء حذف المنتج');
+        }
     }
 }
