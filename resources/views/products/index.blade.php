@@ -15,7 +15,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">الاعدادات</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمه الاقسام</span>
+                <h4 class="content-title mb-0 my-auto">الاعدادات</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمه المنتجات</span>
             </div>
         </div>
         <div class="d-flex my-xl-auto right-content">
@@ -61,8 +61,12 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <a class="modal-effect btn btn-outline-success btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo1">اضافه منتج</a>
+                    <a class="modal-effect btn btn-success btn-block d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" href="#modaldemo1">
+                        <span class="mr-2">اضافه منتج</span> <!-- Text -->
+                        <i class="fas fa-plus-circle ml-2"></i> <!-- Icon -->
+                    </a>
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example1" class="table text-md-nowrap">
@@ -81,17 +85,19 @@
                                     <td>{{ $product->product_name }}</td>
                                     <td>{{ $product->description }}</td>
                                     <td>
+
+
                                         <div class="row">
-                                            <div class="col">
-                                                <button class="modal-effect btn btn-outline-primary btn-block d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" data-target="#modaledite{{ $product->id }}">
+                                            <div class="col-6">
+                                                <button class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center mr-1" data-effect="effect-scale" data-toggle="modal" data-target="#modaledite{{ $product->id }}">
                                                     <span>تعديل</span>
-                                                    <i class="fas fa-edit ml-2"></i>
+                                                    <i class="fas fa-edit"></i>
                                                 </button>
                                             </div>
-                                            <div class="col">
-                                                <button class="modal-effect btn btn-outline-danger btn-block d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" data-target="#modaldelete{{ $product->id }}">
+                                            <div class="col-6">
+                                                <button class="modal-effect btn btn-outline-danger btn-sm d-flex justify-content-between align-items-center ml-1" data-effect="effect-scale" data-toggle="modal" data-target="#modaldelete{{ $product->id }}">
                                                     <span>حذف</span>
-                                                    <i class="fas fa-trash-alt ml-2"></i>
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -206,8 +212,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button class="btn ripple btn-primary" type="submit">حفظ المنتج</button>
-                            <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">اغلاق</button>
+                                <button class="btn ripple btn-success" type="submit">حفظ المنتج</button>
+                                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">اغلاق</button>
                         </div>
                     </form>
 
