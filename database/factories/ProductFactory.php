@@ -23,6 +23,7 @@ class ProductFactory extends Factory
             'section_id' => function () {
                 return Section::factory()->create()->id;
             },
+            'user_id'=>1,
         ];
     }
 }
