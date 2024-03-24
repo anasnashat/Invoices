@@ -75,4 +75,11 @@ class SectionController extends Controller
             return redirect()->route('sections.index')->with('error', 'حدث خطأ أثناء حذف القسم');
         }
     }
+
+
+    public function getProducts($id)
+    {
+        $states =DB::table('products')->where('section_id', $id)->pluck('product_name','id');
+        return json_decode($states);
+    }
 }
