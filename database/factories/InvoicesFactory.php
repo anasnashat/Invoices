@@ -19,10 +19,10 @@ class InvoicesFactory extends Factory
     public function definition(): array
     {
         return [
-            'invoices_number' => $this->faker->randomNumber(),
-            'invoices_date' => $this->faker->date(),
+            'invoice_number' => $this->faker->randomNumber(),
+            'invoice_date' => $this->faker->date(),
             'due_date' => $this->faker->date(),
-            'rate_value' => $this->faker->randomFloat(2, 0, 100),
+            'rate_vat' => $this->faker->randomFloat(2, 0, 100),
             'value_vat' => $this->faker->randomFloat(2, 0, 100),
             'total' => $this->faker->randomFloat(2, 0, 100),
             'status' => $this->faker->randomElement([0,1,2]),
