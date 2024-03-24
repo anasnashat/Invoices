@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InvoicesRequest;
 use App\Models\Invoices;
+use App\Models\Product;
+use App\Models\Section;
 use Illuminate\Http\Request;
 
 class InvoicesController extends Controller
@@ -13,6 +16,7 @@ class InvoicesController extends Controller
     public function index()
     {
         $invoices =Invoices::with('product')->paginate(20);
+
         return view('invoices.index',compact('invoices'));
     }
 
@@ -21,15 +25,22 @@ class InvoicesController extends Controller
      */
     public function create()
     {
-        //
+        $sections = Section::with('products')->get();
+        return view('invoices.create', ['sections' => $sections]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InvoicesRequest $request)
     {
-        //
+//        dd($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id();
+//        dd($validatedData);
+
+        $inv =Invoices::create($validatedData);
+        dd($inv);
     }
 
     /**
