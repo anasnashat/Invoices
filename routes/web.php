@@ -28,4 +28,6 @@ Route::resource('invoices', InvoicesController::class);
 Route::resource('sections', SectionController::class);
 Route::resource('products', ProductController::class);
 
+Route::get('section/{id}',[SectionController::class,'getProducts']);
+
 require __DIR__.'/auth.php';
