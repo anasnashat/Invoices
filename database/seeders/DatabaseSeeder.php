@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('anas01060'),
             'remember_token' => Str::random(10),
             ]);
-        Invoices::factory(10)->create();
+        Invoices::factory(1)->create();
 
 
     }
