@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InvoicesRequest;
 use App\Models\Invoices;
+use App\Models\InvoicesAttachment;
 use App\Models\Product;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoicesController extends Controller
 {
@@ -15,8 +17,11 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        $invoices =Invoices::with('product')->paginate(20);
-
+        $invoices =Invoices::with('product')
+            ->with('section')
+            ->with('invoice_attachment.user')
+            ->with('invoice_payment')->paginate(25);
+//        dd($invoices);
         return view('invoices.index',compact('invoices'));
     }
 
@@ -34,21 +39,42 @@ class InvoicesController extends Controller
      */
     public function store(InvoicesRequest $request)
     {
-//        dd($request->validated());
         $validatedData = $request->validated();
         $validatedData['user_id'] = auth()->id();
-//        dd($validatedData);
 
-        $inv =Invoices::create($validatedData);
-        dd($inv);
+        $invoice_created = Invoices::create($validatedData);
+//        dd($invoice_created);
+        $attachment['invoice_id'] =  $invoice_created->id;
+        $attachment['user_id'] = auth()->id();
+//        dd($request->attachment->getClientOriginalName());
+        $attachment['attachment'] = $request->file('attachment')
+            ->storeAs(
+                'attachment/' . $request->invoice_number,
+                $request->attachment->getClientOriginalName()
+            );
+        InvoicesAttachment::create($attachment);
+
+
+        try {
+
+            DB::beginTransaction();
+
+
+            DB::commit();
+            return redirect()->route('invoices.create')->with('success','تم اضافه الفاتوره بنجاح');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('invoices.create')->with('error','حدث خطا اثناء اضافه الفاتوره');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Invoices $invoices)
+    public function show(Invoices $invoice)
     {
-        //
+        return view('invoices.show', compact('invoice'));
     }
 
     /**
@@ -56,7 +82,9 @@ class InvoicesController extends Controller
      */
     public function edit(Invoices $invoices)
     {
-        //
+        $sections = Section::all();
+//        dd($invoices);
+        return view('invoices.edite', ['sections'=>$sections, 'invoices'=>$invoices ]);
     }
 
     /**
