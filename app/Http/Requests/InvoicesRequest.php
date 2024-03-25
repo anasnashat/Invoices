@@ -29,10 +29,10 @@ class InvoicesRequest extends FormRequest
             'section_id' => 'nullable|exists:sections,id',
             'rate_vat' => 'required|string',
             'value_vat' => 'required|numeric',
-            'amount_commission' => 'nullable|numeric',
-            'discount' => 'nullable|numeric',
             'total' => 'required|numeric',
-            'amount_collection' => 'nullable|numeric',
+            'amount_commission' => 'nullable|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
+            'amount_collection' => 'nullable|numeric|min:0',
             'not' => 'nullable|string',
         ];
     }
