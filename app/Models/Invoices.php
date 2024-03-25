@@ -42,4 +42,13 @@ class Invoices extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function invoice_payment()
+    {
+        return $this->hasMany(InvoicesPayments::class, 'invoice_id');
+    }
+    public function invoice_attachment()
+    {
+        return $this->hasMany(InvoicesAttachment::class, 'invoice_id');
+    }
+
 }
