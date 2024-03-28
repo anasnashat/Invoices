@@ -39,33 +39,37 @@ class InvoicesController extends Controller
      */
     public function store(InvoicesRequest $request)
     {
-        $validatedData = $request->validated();
-        $validatedData['user_id'] = auth()->id();
-
-        $invoice_created = Invoices::create($validatedData);
-//        dd($invoice_created);
-        $attachment['invoice_id'] =  $invoice_created->id;
-        $attachment['user_id'] = auth()->id();
-//        dd($request->attachment->getClientOriginalName());
-        $attachment['attachment'] = $request->file('attachment')
-            ->storeAs(
-                'attachment/' . $request->invoice_number,
-                $request->attachment->getClientOriginalName()
-            );
-        InvoicesAttachment::create($attachment);
-
 
         try {
 
             DB::beginTransaction();
 
+            $validatedData = $request->validated();
+            $validatedData['user_id'] = auth()->id();
+
+            $invoice_created = Invoices::create($validatedData);
+//        dd($invoice_created);
+            if ($request->file('attachment')) {
+                $attachment['invoice_id'] =  $invoice_created->id;
+                $attachment['user_id'] = auth()->id();
+                $attachmentPath = $request->file('attachment')
+                    ->storeAs(
+                        'attachment/' . $request->invoice_number,
+                        $request->file('attachment')->getClientOriginalName()
+                    );
+                InvoicesAttachment::create($attachment);
+
+            }
+
+
+
 
             DB::commit();
-            return redirect()->route('invoices.create')->with('success','تم اضافه الفاتوره بنجاح');
+            return redirect()->route('invoices.index')->with('success','تم اضافه الفاتوره بنجاح');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('invoices.create')->with('error','حدث خطا اثناء اضافه الفاتوره');
+            return redirect()->route('invoices.index')->with('error','حدث خطا اثناء اضافه الفاتوره');
         }
     }
 
@@ -80,26 +84,86 @@ class InvoicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Invoices $invoices)
+    public function edit(Invoices $invoice)
     {
         $sections = Section::all();
 //        dd($invoices);
-        return view('invoices.edite', ['sections'=>$sections, 'invoices'=>$invoices ]);
+        return view('invoices.edite', ['sections'=>$sections, 'invoices'=>$invoice ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Invoices $invoices)
+    public function update(InvoicesRequest $request, Invoices $invoice)
     {
-        //
+        try {
+            $validatedData = $request->validated();
+
+            DB::beginTransaction();
+
+            $invoice->update($validatedData);
+
+            DB::commit();
+
+            return redirect()->route('invoices.show', $invoice)->with('success', 'تم تعديل الفاتورة بنجاح');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('invoices.edit', $invoice)->with('error', 'حدث خطا اثناء تعديل الفاتوره');
+        }
     }
+
+    public function update_status_show(Invoices $invoice)
+    {
+//        dd($invoice);
+        return view('invoices.edite_status',[ 'invoice'=>$invoice]);
+
+    }
+    public function update_status(Request $request, Invoices $invoice)
+    {
+        $validatedData = $request->validate([
+            'status' => 'required|in:1,2',
+            'payment_date' => 'required',
+        ],
+            [    'status.required' => 'حقل الحالة مطلوب.',
+                'status.in' => 'قيمه الحاله خاطئه.'
+            ]
+        );
+        try {
+            DB::beginTransaction();
+
+            $validatedData['status'] = $request->status;
+            $validatedData['payment_date'] = $request->payment_date;
+
+            $invoice->update($validatedData);
+
+            DB::commit();
+
+            return redirect()->route('invoices.show', $invoice)->with('success', 'تم تعديل الفاتورة بنجاح');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('invoices.update_status_show', $invoice)->with('error', 'حدث خطا اثناء تعديل الفاتوره');
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoices $invoices)
+    public function destroy(Invoices $invoice)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+//            dd($invoice['invoice_attachment']);
+            $invoice->delete();
+            DB::commit();
+            return redirect()->route('invoices.index')->with('success','تم حذف الفاتوره بنجاح');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('invoices.index')->with('error','حدث خطا اثناء حذف الفاتوره');
+        }
     }
 }
