@@ -27,6 +27,7 @@ return new class extends Migration
             $table->decimal('amount_collection', 8, 2);
             $table->enum('status',[0,1,2])->default(2);
             $table->text('not')->nullable();
+            $table->dateTime('payment_date')->nullable();
             $table->softDeletes();
 
             $table->timestamps();
