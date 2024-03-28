@@ -41,12 +41,14 @@
     <!-- row -->
     <div class="row">
         @include('partials.alerts')
+{{--        @dd($invoices['section'])--}}
 
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('invoices.store') }}" method="post" enctype="multipart/form-data"
+                    <form action="{{ route('invoices.update',$invoices) }}" method="post" enctype="multipart/form-data"
                           autocomplete="off">
+{{--                        @dd($invoices)--}}
                         @csrf
                         @method('PUT')
 
@@ -78,7 +80,7 @@
                                 <select name="section_id" class="form-control SlectBox" onclick="console.log($(this).val())"
                                         onchange="console.log('change is firing')">
                                     <!--placeholder-->
-                                    <option value="{{ $invoices->section_id }}"  selected disabled>value="{{ $invoices->setion }}"</option>
+                                    <option value="{{ $invoices->section_id }}"  selected >{{ $invoices['section']->name }}</option>
                                     @foreach ($sections as $section)
                                         <option value="{{ $section->id }}"> {{ $section->name }}</option>
                                     @endforeach
@@ -87,7 +89,9 @@
 
                             <div class="col">
                                 <label for="inputName" class="control-label">المنتج</label>
-                                <select id="product"  name="product_id"  class="form-control">
+                                <select id="product"  name="product_id"    class="form-control">
+                                    <option value="{{ $invoices->product_id }}"  selected >{{ $invoices['product']->product_name }}</option>
+
                                 </select>
                             </div>
 
@@ -123,7 +127,7 @@
                                 <label for="inputName" class="control-label">نسبة ضريبة القيمة المضافة</label>
                                 <select name="rate_vat" id="Rate_VAT" class="form-control" onchange="myFunction()">
                                     <!--placeholder-->
-                                    <option value="{{ $invoices->rate_vat }}" selected disabled>{{ $invoices->rate_vat }} </option>
+                                    <option value="{{ $invoices->rate_vat }}" selected >{{ $invoices->rate_vat }} </option>
                                     <option value=" 5%">5%</option>
                                     <option value="10%">10%</option>
                                 </select>
@@ -149,17 +153,10 @@
                         <div class="row">
                             <div class="col">
                                 <label for="exampleTextarea">ملاحظات</label>
-                                <textarea class="form-control" id="exampleTextarea" name="not" rows="3"></textarea>
+                                <textarea class="form-control" id="exampleTextarea" name="not" rows="3">{{ $invoices->not }}</textarea>
                             </div>
                         </div><br>
 
-                        <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
-                        <h5 class="card-title">المرفقات</h5>
-
-                        <div class="col-sm-12 col-md-12">
-                            <input type="file" name="attachment" class="dropify" accept=".pdf,.jpg, .png, image/jpeg, image/png"
-                                   data-height="70" />
-                        </div><br>
 
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">حفظ البيانات</button>
