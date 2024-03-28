@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('invoice_id')->constrained('invoices')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->decimal('payment_amount',8,2);
-            $table->text('note');
+            $table->decimal('difference',8,2);
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
