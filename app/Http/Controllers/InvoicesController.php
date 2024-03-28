@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\QueryBuilder;
+
 
 class InvoicesController extends Controller
 {
@@ -17,13 +19,15 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        $invoices =Invoices::with('product')
+        $invoices =QueryBuilder::for(Invoices::class)
+            ->allowedFilters(['status'])
             ->with('section')
             ->with('invoice_attachment.user')
             ->with('invoice_payment')->paginate(25);
-//        dd($invoices);
         return view('invoices.index',compact('invoices'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
