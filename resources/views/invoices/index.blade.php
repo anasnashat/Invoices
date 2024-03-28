@@ -116,12 +116,12 @@
                                                 </a>
                                             </div>
                                             <div class="mr-3">
-{{--                                                @dd($invoice)--}}
-                                                <a class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center"  href="{{ route('invoices.update_status_show',$invoice) }}" >
-                                                    <span> حاله الدفع تعديل</span>
+                                                <a class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center"  href="{{ route('payment.create',$invoice) }}" >
+                                                    <span> دفع الفاتوره</span>
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </div>
+
                                             <div class="ml-3">
                                                 <button class="modal-effect btn btn-outline-danger btn-sm d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" data-target="#modaldelete{{ $invoice->id }}">
                                                     <span>حذف</span>
@@ -142,7 +142,7 @@
                                             <div class="modal-body">
                                                 <div class="alert alert-danger "> هل انت متاكد من حذف هذا الفاتوره </div>
 
-                                                <form method="post" action="{{ route('invoices.destroy', $invoice->id) }}">
+                                                <form method="post" action="{{ route('invoices.destroy', $invoice) }}">
                                                 @csrf
                                                 @method('delete')
                                             </div>
