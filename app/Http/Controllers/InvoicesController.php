@@ -21,6 +21,7 @@ class InvoicesController extends Controller
     {
         $invoices =QueryBuilder::for(Invoices::class)
             ->allowedFilters(['status'])
+            ->with('product')
             ->with('section')
             ->with('invoice_attachment.user')
             ->with('invoice_payment')->paginate(25);
