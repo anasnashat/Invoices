@@ -24,6 +24,7 @@ class Invoices extends Model
         'status',
         'amount_collection',
         'not',
+        'payment_date',
         'deleted_at',
     ];
 
