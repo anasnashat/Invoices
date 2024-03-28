@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('due_date');
             $table->foreignId('product_id')->nullable()->constrained('products')->nullOnDelete();
             $table->foreignId('section_id')->nullable()->constrained('sections')->nullOnDelete();
-            $table->foreignId('user_id')->constrained('users')->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('rate_vat');
             $table->decimal('value_vat',8,2);
             $table->decimal('total',8,2);
