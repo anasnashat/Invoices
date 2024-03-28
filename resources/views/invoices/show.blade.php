@@ -122,11 +122,11 @@
                                                         <th scope="row">الحالة الحالية</th>
 
 
-                                                        @if ($invoice->value_status == 1)
+                                                        @if ($invoice->status == 1)
                                                             <td><span
                                                                     class="badge badge-pill badge-success">تم الدفع بالكامل</span>
                                                             </td>
-                                                        @elseif($invoice->value_status ==2)
+                                                        @elseif($invoice->status ==2)
                                                             <td><span
                                                                     class="badge badge-pill badge-warning">تم دفع جزء من الفاتوره</span>
                                                             </td>
@@ -163,20 +163,26 @@
                                                         <th>ملاحظات</th>
                                                         <th>تاريخ الاضافة </th>
                                                         <th>المستخدم</th>
+                                                        <th>قيمه الدفعه</th>
+                                                        <th>المتبقي</th>
+                                                        <th>العمليات</th>
+
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    @foreach($invoice->invoice_payment as $payment)
+
                                                         <tr>
                                                             <td>{{ $invoice->id }}</td>
                                                             <td>{{ $invoice->invoice_number }}</td>
                                                             <td>{{ $invoice["product"]->product_name }}</td>
                                                             <td>{{ $invoice['section']->name }}</td>
 
-                                                            @if ($invoice->value_status == 1)
+                                                            @if ($invoice->status == 1)
                                                                 <td><span
                                                                         class="badge badge-pill badge-success">تم الدفع بالكامل</span>
                                                                 </td>
-                                                            @elseif($invoice->value_status ==2)
+                                                            @elseif($invoice->status == 2)
                                                                 <td><span
                                                                         class="badge badge-pill badge-warning">تم دفع جزء من الفاتوره</span>
                                                                 </td>
@@ -185,14 +191,28 @@
                                                                         class="badge badge-pill badge-danger">لم يتم دفع الفاتوره</span>
                                                                 </td>
                                                             @endif
-                                                            @if($invoice['invoice_payment']->count() > 0)
+                                                            @if($invoice->invoice_payment->count() > 0)
+{{--                                                                    @dd($invoice->invoice_payment)--}}
+                                                                    <td>{{ $payment->created_at }}</td>
+                                                                    <td>{{ $payment->note }}</td>
+                                                                    <td>{{ $invoice->created_at }}</td>
+                                                                    <td>{{ $payment->user->name }}</td>
+                                                                    <td>{{ $payment->payment_amount }}</td>
+                                                                    <td>{{ $payment->difference }}</td>
 
-                                                            <td>{{ $invoice['invoice_payment']->created_at }}</td>
-                                                            <td>{{ $invoice['invoice_payment']->note }}</td>
-                                                            <td>{{ $invoice['invoice_payment']->created_at }}</td>
-                                                            <td>{{ $invoice['invoice_payment']->user_id }}</td>
                                                             @endif
+                                                            <td>
+                                                                <div class="mr-3">
+{{--                                                                                                                    @dd($invoice,$payment)--}}
+
+                                                                        <a class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center"  href="{{ route('payment.edit',['invoices'=>$invoice,'invoices_payments'=>$payment]) }}" >
+                                                                        <span> حاله الدفع تعديل</span>
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
                                                         </tr>
+                                                        @endforeach
 
                                                     </tbody>
                                                 </table>
@@ -286,7 +306,7 @@
                                                                         عرض</a>
 
                                                                     <a class="btn btn-outline-info btn-sm"
-                                                                       href="{{ route('file.download', ['file_folder' => $invoice->invoice_number, 'filename' => $attachment->attachment]) }}"
+{{--                                                                       href="{{ route('file.download', ['file_folder' => $invoice->invoice_number, 'filename' => $attachment->attachment]) }}"--}}
                                                                        role="button"><i
                                                                             class="fas fa-download"></i>&nbsp;
                                                                         تحميل</a>
