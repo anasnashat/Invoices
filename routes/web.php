@@ -27,6 +27,10 @@ Route::middleware('auth')->group(function () {
 Route::get('admin/{page}',[AdminController::class,'index']);
 
 Route::resource('invoices', InvoicesController::class);
+Route::get('invoices/update/status/{invoice}', [InvoicesController::class, 'update_status_show'])->name('invoices.update_status_show');
+Route::post('invoices/update/status/{invoice}', [InvoicesController::class, 'update_status'])->name('invoices.update_status');
+
+
 Route::resource('attachment', InvoicesAttachmentController::class);
 Route::resource('sections', SectionController::class);
 Route::resource('products', ProductController::class);
@@ -34,5 +38,7 @@ Route::resource('products', ProductController::class);
 
 Route::get('section/{id}',[SectionController::class,'getProducts']);
 Route::get('/download/{file_folder}/{filename}', [InvoicesAttachmentController::class, 'download'])->name('file.download');
+
+
 
 require __DIR__.'/auth.php';
