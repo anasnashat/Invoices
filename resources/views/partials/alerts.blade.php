@@ -3,20 +3,13 @@
         {{ session('success') }}
     </div>
 @endif
-@if(session())
 <script>
-    $(document).ready(function() {
-        console.log('Success')
-        window.onload = function (){
-            notif({
-                msg: "hi",
-                type: 'success'
-            });
-        };
+    notif({
+        msg: "Default <b>Top</b> Notification",
+        position: "top",
     });
 </script>
 
-@endif
 
 @if(session('error'))
     <div class="alert alert-danger   text-center">
