@@ -3,10 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoicesAttachmentController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\InvoicesPaymentsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use App\Models\InvoicesAttachment;
+use App\Models\InvoicesPayments;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
@@ -27,9 +29,16 @@ Route::middleware('auth')->group(function () {
 Route::get('admin/{page}',[AdminController::class,'index']);
 
 Route::resource('invoices', InvoicesController::class);
-Route::get('invoices/update/status/{invoice}', [InvoicesController::class, 'update_status_show'])->name('invoices.update_status_show');
-Route::post('invoices/update/status/{invoice}', [InvoicesController::class, 'update_status'])->name('invoices.update_status');
 
+
+
+Route::prefix('invoice/{invoices}/payment')->group(function () {
+    Route::get('create', [InvoicesPaymentsController::class, 'create'])->name('payment.create');
+    Route::post('/', [InvoicesPaymentsController::class, 'store'])->name('payment.store');
+    Route::get('{invoices_payments}/edit', [InvoicesPaymentsController::class, 'edit'])->name('payment.edit');
+    Route::put('{invoices_payments}', [InvoicesPaymentsController::class, 'update'])->name('payment.update');
+    Route::delete('{invoices_payments}', [InvoicesPaymentsController::class, 'destroy'])->name('payment.destroy');
+});
 
 Route::resource('attachment', InvoicesAttachmentController::class);
 Route::resource('sections', SectionController::class);
