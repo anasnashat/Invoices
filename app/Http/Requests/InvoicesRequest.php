@@ -30,9 +30,9 @@ class InvoicesRequest extends FormRequest
             'rate_vat' => 'required|string',
             'value_vat' => 'required|numeric',
             'total' => 'required|numeric',
-            'amount_commission' => 'nullable|numeric|min:0',
+            'amount_commission' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
-            'amount_collection' => 'nullable|numeric|min:0',
+            'amount_collection' => 'required|numeric|min:0',
             'not' => 'nullable|string',
         ];
     }
@@ -47,6 +47,7 @@ class InvoicesRequest extends FormRequest
             'section_id.exists' => 'القسم المحدد غير موجود',
             'rate_vat.required' => 'حقل سعر الضريبة مطلوب',
             'value_vat.required' => 'حقل قيمة الضريبة مطلوب',
+            'amount_commission.required' => 'حقل مبلغ العمولة مطلوب',
             'amount_commission.numeric' => 'حقل قيمة العمولة يجب أن يكون رقمًا',
             'discount.numeric' => 'حقل الخصم يجب أن يكون رقمًا',
             'total.required' => 'حقل الإجمالي مطلوب',
