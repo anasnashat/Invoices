@@ -3,6 +3,21 @@
         {{ session('success') }}
     </div>
 @endif
+@if(session())
+<script>
+    $(document).ready(function() {
+        console.log('Success')
+        window.onload = function (){
+            notif({
+                msg: "hi",
+                type: 'success'
+            });
+        };
+    });
+</script>
+
+@endif
+
 @if(session('error'))
     <div class="alert alert-danger   text-center">
         {{ session('error') }}
@@ -17,3 +32,5 @@
         </ul>
     </div>
 @endif
+
+
