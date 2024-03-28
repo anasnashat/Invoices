@@ -113,40 +113,6 @@ class InvoicesController extends Controller
         }
     }
 
-    public function update_status_show(Invoices $invoice)
-    {
-//        dd($invoice);
-        return view('invoices.edite_status',[ 'invoice'=>$invoice]);
-
-    }
-    public function update_status(Request $request, Invoices $invoice)
-    {
-        $validatedData = $request->validate([
-            'status' => 'required|in:1,2',
-            'payment_date' => 'required',
-        ],
-            [    'status.required' => 'حقل الحالة مطلوب.',
-                'status.in' => 'قيمه الحاله خاطئه.'
-            ]
-        );
-        try {
-            DB::beginTransaction();
-
-            $validatedData['status'] = $request->status;
-            $validatedData['payment_date'] = $request->payment_date;
-
-            $invoice->update($validatedData);
-
-            DB::commit();
-
-            return redirect()->route('invoices.show', $invoice)->with('success', 'تم تعديل الفاتورة بنجاح');
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return redirect()->route('invoices.update_status_show', $invoice)->with('error', 'حدث خطا اثناء تعديل الفاتوره');
-        }
-    }
-
 
     /**
      * Remove the specified resource from storage.
