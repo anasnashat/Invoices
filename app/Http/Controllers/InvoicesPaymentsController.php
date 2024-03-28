@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InvoicesPaymentsRequest;
+use App\Models\Invoices;
 use App\Models\InvoicesPayments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoicesPaymentsController extends Controller
 {
@@ -18,17 +21,45 @@ class InvoicesPaymentsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Invoices $invoices)
     {
-        //
+        return view('invoices.store_status', compact('invoices'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InvoicesPaymentsRequest $request, Invoices $invoices)
     {
-        //
+//        dd($invoices->id);
+//            dd($difference);
+        $validatedData = $request->validated();
+        try {
+            DB::beginTransaction();
+            $total = $invoices->total;
+            $difference = $total - ($request->payment_amount + $invoices->invoice_payment->sum('payment_amount'));
+//            dd($difference);
+            $validatedData['difference'] = $difference;
+            $validatedData['user_id'] = auth()->id();
+            InvoicesPayments::create($validatedData);
+//            dd($invoices->total);
+            if ($difference <= 0) {
+                $invoices->update(['status' => 1]);
+            }else{
+                $invoices->update(['status' => 2]);
+
+            }
+
+
+            DB::commit();
+
+            return redirect()->route('invoices.show', $invoices)->with('success', 'تم تعديل الفاتورة بنجاح');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('invoices.update', $invoices)->with('error', 'حدث خطا اثناء تعديل الفاتوره');
+        }
+
     }
 
     /**
@@ -42,18 +73,44 @@ class InvoicesPaymentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(InvoicesPayments $invoicesPayments)
+    public function edit(  Invoices $invoices ,InvoicesPayments $invoices_payments)
     {
-        //
+//        dd($invoices_payments);
+        return view('invoices.update_status',['invoices'=>$invoices,'payment'=>$invoices_payments]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, InvoicesPayments $invoicesPayments)
+    public function update(InvoicesPaymentsRequest $request, Invoices $invoices ,InvoicesPayments $invoices_payments)
     {
-        //
+        $validatedData = $request->validated();
+        try {
+            DB::beginTransaction();
+            $total = $invoices->total;
+            $difference = $total - ($request->payment_amount + $invoices->invoice_payment->sum('payment_amount'));
+//            dd($difference);
+//            dd($invoices->total);
+
+            if ($difference <= 0) {
+                $invoices->update(['status' => 1]);
+            }else{
+                $validatedData['difference'] = $difference;
+                $validatedData['user_id'] = auth()->id();
+                $invoices_payments->update($validatedData);
+                $invoices->update(['status' => 2]);
+            }
+            DB::commit();
+
+            return redirect()->route('invoices.show', $invoices)->with('success', 'تم تعديل الفاتورة بنجاح');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('invoices.update', $invoices)->with('error', 'حدث خطا اثناء تعديل الفاتوره');
+        }
+
     }
+
 
     /**
      * Remove the specified resource from storage.
