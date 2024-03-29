@@ -147,8 +147,12 @@
                             </div>
 
                             <div class="col">
+{{--                                @dd($invoices['invoice_payment'])--}}
                                 <label>المتبقي</label>
-                                <input class="form-control" name="difference" value="{{ $payment->difference ?? $invoices->total }}" placeholder="المتبقي "
+                                <input
+                                    class="form-control" name="difference"
+                                    value="{{ optional($invoices->invoice_payment->last())->difference ?? $invoices->total }}"
+                                    placeholder="المتبقي "
                                        type="number" readonly>
 
                             </div>
