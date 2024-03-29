@@ -25,7 +25,10 @@ class InvoicesController extends Controller
             ->with('section')
             ->with('invoice_attachment.user')
             ->with('invoice_payment')->paginate(25);
+//        dd($invoices);
         return view('invoices.index',compact('invoices'));
+
+
     }
 
 
