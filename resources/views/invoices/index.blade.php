@@ -35,31 +35,7 @@
 
             </div>
         </div>
-        <div class="d-flex my-xl-auto right-content">
-            <div class="pr-1 mb-3 mb-xl-0">
-                <button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-filter-variant"></i></button>
-            </div>
-            <div class="pr-1 mb-3 mb-xl-0">
-                <button type="button" class="btn btn-danger btn-icon ml-2"><i class="mdi mdi-star"></i></button>
-            </div>
-            <div class="pr-1 mb-3 mb-xl-0">
-                <button type="button" class="btn btn-warning  btn-icon ml-2"><i class="mdi mdi-refresh"></i></button>
-            </div>
-            <div class="mb-3 mb-xl-0">
-                <div class="btn-group dropdown">
-                    <button type="button" class="btn btn-primary">14 Aug 2019</button>
-                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuDate" data-x-placement="bottom-end">
-                        <a class="dropdown-item" href="#">2015</a>
-                        <a class="dropdown-item" href="#">2016</a>
-                        <a class="dropdown-item" href="#">2017</a>
-                        <a class="dropdown-item" href="#">2018</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
     <!-- breadcrumb -->
 @endsection
@@ -76,16 +52,16 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-4 col-xl-3 justify-content-between">
-                    <a class="modal-effect btn btn-success btn-block d-flex justify-content-between align-items-center"   href="{{ route('invoices.create') }}">
-                        <span class="mr-2">اضافه فاتوره</span> <!-- Text -->
-                        <i class="fas fa-plus-circle ml-2"></i> <!-- Icon -->
+                <div class="col-sm-6 col-md-4 col-xl-4 d-flex align-items-start justify-content-between mb-3">
+                    <a class="btn btn-info" href="{{ route('invoices.create') }}">
+                        <span class="ml-3">اضافه فاتوره</span> <i class="fas fa-plus-circle mr-3"></i>
                     </a>
-                    <a class="modal-effect btn btn-success btn-block d-flex justify-content-between align-items-center"   href="{{ route('invoices.export') }}">
-                        <span class="mr-2">تصدير الي اكسيل</span> <!-- Text -->
-                        <i class="fas fa-file-excel ml-2"></i> <!-- Icon -->
+                    <a class="btn btn-success" href="{{ route('invoices.export') }}">
+                        <span class="ml-3">تصدير الي اكسيل</span> <i class="fas fa-file-excel mr-3"></i>
                     </a>
                 </div>
+                <!-- Your table should come right after this div -->
+
 
                 <div class="card-body">
                     <div class="table-responsive">
@@ -126,59 +102,57 @@
                                     </td>                                    <td>{{$invoice->total}}</td>
                                     <td>{{$invoice->not}}</td>
                                     <td>
-                                        <div class="d-flex justify-content-between align-content-center">
-                                            <div class="mr-3">
-{{--                                                @dd($invoice)--}}
-                                                <a class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center"  href="{{ route('invoices.edit',$invoice) }}" >
+
+                                        <div class="dropdown">
+                                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                العمليات
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item  d-flex justify-content-between align-items-center" href="{{ route('invoices.edit', $invoice) }}">
                                                     <span>تعديل</span>
-                                                    <i class="fas fa-edit"></i>
+                                                    <i class="fas fa-edit" style="color: blue"></i>
                                                 </a>
-                                            </div>
-                                            <div class="mr-3">
-                                                <a class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center"  href="{{ route('payment.create',$invoice) }}" >
-                                                    <span> دفع الفاتوره</span>
-                                                    <i class="fas fa-edit"></i>
+                                                <a class="dropdown-item d-flex justify-content-between align-items-center" href="{{ route('payment.create', $invoice) }}">
+                                                    <span>دفع الفاتورة</span>
+                                                    <i class="fas fa-money-bill-wave bx-font-color " style="color: green" ></i>
                                                 </a>
-                                            </div>
-                                            <div class="mr-3">
-                                                <a class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center"  href="{{ route('invoices.print',$invoice) }}" >
-                                                    <span> طباعه الفاتوره</span>
-                                                    <i class="fas fa-edit"></i>
+                                                <a class="dropdown-item d-flex justify-content-between align-items-center" href="{{ route('invoices.print', $invoice) }}">
+                                                    <span>طباعة الفاتورة</span>
+                                                    <i class="fas fa-print" style="color: grey"></i>
                                                 </a>
-                                            </div>
-
-                                            <div class="ml-3">
-                                                <button class="modal-effect btn btn-outline-danger btn-sm d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" data-target="#modaldelete{{ $invoice->id }}">
+                                                <div class="dropdown-divider"></div>
+                                                <button class="dropdown-item btn-delete d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#modaldelete{{ $invoice->id }}">
                                                     <span>حذف</span>
-                                                    <i class="fas fa-trash-alt"></i>
+                                                    <i class="fas fa-trash-alt" style="color: red"></i>
                                                 </button>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    </td>
-                                </tr>
-                                <div class="modal fade" id="modaldelete{{ $invoice->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefault" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h6 class="modal-title">حذف فاتوره</h6>
-                                                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="alert alert-danger "> هل انت متاكد من حذف هذا الفاتوره </div>
 
-                                                <form method="post" action="{{ route('invoices.destroy', $invoice) }}">
-                                                @csrf
-                                                @method('delete')
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modaldelete{{ $invoice->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefault" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h6 class="modal-title">حذف فاتوره</h6>
+                                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="alert alert-danger "> هل انت متاكد من حذف هذا الفاتوره </div>
+
+                                                    <form method="post" action="{{ route('invoices.destroy', $invoice) }}">
+                                                    @csrf
+                                                    @method('delete')
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn ripple btn-danger" type="submit">حذف الفاتوره</button>
+                                                    <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">اغلاق</button>
+                                                </div>
+                                                </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button class="btn ripple btn-danger" type="submit">حذف الفاتوره</button>
-                                                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">اغلاق</button>
-                                            </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>
                             @endforeach
                             </tbody>
                         </table>
@@ -247,4 +221,13 @@
     <!--Internal  Notify js -->
     <script src="{{asset('assets/plugins/notify/js/notifIt.js')}}"></script>
     <script src="{{asset('assets/plugins/notify/js/notifit-custom.js')}}"></script>
+
+
+
+
+
+
+
+
+
 @endsection

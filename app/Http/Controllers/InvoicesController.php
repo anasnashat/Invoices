@@ -25,6 +25,7 @@ class InvoicesController extends Controller
     {
         $invoices =QueryBuilder::for(Invoices::class)
             ->allowedFilters(['status'])
+            ->allowedSorts(['invoice_number','total'])
             ->with('product')
             ->with('section')
             ->with('invoice_attachment.user')
