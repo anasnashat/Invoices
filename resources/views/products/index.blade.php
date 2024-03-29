@@ -11,6 +11,7 @@
 @endsection
 @section('title','المنتجات')
 @section('page-header')
+
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
@@ -210,7 +211,7 @@
                             <label for="sectionField1">قسم المنتج</label>
                             <select class="form-control" name="section_id" id="sectionField1">
                                 @foreach($sections as $section)
-                                    <option value="{{ $section->id }}" {{ $product->section_id == $section->id ? 'selected' : '' }}>{{ $section->name }}</option>
+                                    <option value="{{ $section->id }}">{{ $section->name }}</option>
                                 @endforeach
                             </select>
                         </div>
