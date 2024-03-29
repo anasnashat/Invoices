@@ -39,7 +39,7 @@ class InvoicesPaymentsController extends Controller
             $validatedData['difference'] = $difference;
             $validatedData['user_id'] = auth()->id();
             InvoicesPayments::create($validatedData);
-            if ($difference < 0) {
+            if ($difference <= 0) {
                 $invoices->update(['status' => 1]);
             }else{
                 $invoices->update(['status' => 2]);
