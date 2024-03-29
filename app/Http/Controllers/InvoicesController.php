@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InvoicesExport;
 use App\Http\Requests\InvoicesRequest;
 use App\Models\Invoices;
 use App\Models\InvoicesAttachment;
 use App\Models\Product;
 use App\Models\Section;
+use App\Notifications\InvoiceAdd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\QueryBuilder\QueryBuilder;
 
 
@@ -48,10 +52,10 @@ class InvoicesController extends Controller
     public function store(InvoicesRequest $request)
     {
 
+
         try {
 
             DB::beginTransaction();
-
             $validatedData = $request->validated();
             $validatedData['user_id'] = auth()->id();
 
@@ -68,11 +72,9 @@ class InvoicesController extends Controller
                 InvoicesAttachment::create($attachment);
 
             }
-
-
-
-
             DB::commit();
+            $user = auth()->user();
+            Notification::send($user,new InvoiceAdd($invoice_created));
             return redirect()->route('invoices.index')->with('success','تم اضافه الفاتوره بنجاح');
 
         } catch (\Exception $e) {
@@ -140,4 +142,15 @@ class InvoicesController extends Controller
             return redirect()->route('invoices.index')->with('error','حدث خطا اثناء حذف الفاتوره');
         }
     }
+
+    public function printInvoice(Invoices $invoices)
+    {
+        return view('invoices.print_invoice',compact('invoices'));
+    }
+
+    public function export()
+    {
+       return Excel::download(new InvoicesExport,'invoices.xlsx');
+    }
+
 }
