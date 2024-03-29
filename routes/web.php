@@ -45,7 +45,11 @@ Route::resource('products', ProductController::class);
 
 
 Route::get('section/{id}',[SectionController::class,'getProducts']);
+Route::get('invoices/print/{invoices}',[InvoicesController::class,'printInvoice'])->name('invoices.print');
 Route::get('/download/{file_folder}/{filename}', [InvoicesAttachmentController::class, 'download'])->name('file.download');
+
+Route::get('invoices/payments/excel/{invoiceId}',[InvoicesPaymentsController::class,'export'])->name('payments.export');
+Route::get('invoices/payments/excel',[InvoicesController::class,'export'])->name('invoices.export');
 
 
 
