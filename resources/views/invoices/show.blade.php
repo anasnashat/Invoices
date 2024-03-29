@@ -149,7 +149,15 @@
                                         </div>
 
                                         <div class="tab-pane" id="tab5">
+                                            <div class="col-sm-6 col-md-4 col-xl-3 mb-3 justify-content-between">
+                                                <a class="modal-effect btn btn-success  btn-block d-flex justify-content-between align-items-center"   href="{{ route('payments.export',['invoiceId'=>$invoice->id]) }}">
+                                                    <span class="mr-2">تصدير الي اكسيل</span> <!-- Text -->
+                                                    <i class="fas fa-file-excel ml-2"></i> <!-- Icon -->
+                                                </a>
+                                            </div>
                                             <div class="table-responsive mt-15">
+
+
                                                 <table class="table center-aligned-table mb-0 table-hover"
                                                        style="text-align:center">
                                                     <thead>
@@ -293,6 +301,7 @@
 
                                                         {{--                                                        @dd($invoice['invoice_attachment'])--}}
                                                         @foreach ($invoice['invoice_attachment']  as $attachment)
+
                                                             <tr>
                                                                 <td>{{ $attachment->id }}</td>
                                                                 <td>{{ $attachment->attachment }}</td>
