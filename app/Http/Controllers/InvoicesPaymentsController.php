@@ -31,27 +31,23 @@ class InvoicesPaymentsController extends Controller
      */
     public function store(InvoicesPaymentsRequest $request, Invoices $invoices)
     {
-//        dd($invoices->id);
-//            dd($difference);
         $validatedData = $request->validated();
         try {
             DB::beginTransaction();
             $total = $invoices->total;
             $difference = $total - ($request->payment_amount + $invoices->invoice_payment->sum('payment_amount'));
-//            dd($difference);
             $validatedData['difference'] = $difference;
             $validatedData['user_id'] = auth()->id();
             InvoicesPayments::create($validatedData);
-//            dd($invoices->total);
-            if ($difference <= 0) {
+            if ($difference < 0) {
                 $invoices->update(['status' => 1]);
             }else{
                 $invoices->update(['status' => 2]);
-
+                $invoices->save();
             }
-
-
             DB::commit();
+
+//            dd($invoices);
 
             return redirect()->route('invoices.show', $invoices)->with('success', 'تم تعديل الفاتورة بنجاح');
         } catch (\Exception $e) {
