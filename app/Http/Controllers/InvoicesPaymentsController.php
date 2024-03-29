@@ -53,7 +53,6 @@ class InvoicesPaymentsController extends Controller
 
 //            dd($invoices);
             Notification::send(auth()->user(),new Invoicepaid($payment));
-            dd($payment);
 
             return redirect()->route('invoices.show', $invoices)->with('success', 'تم تعديل الفاتورة بنجاح');
         } catch (\Exception $e) {
