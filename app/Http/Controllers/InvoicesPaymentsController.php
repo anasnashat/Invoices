@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InvoicesPaymentsExport;
 use App\Http\Requests\InvoicesPaymentsRequest;
 use App\Models\Invoices;
 use App\Models\InvoicesPayments;
+use App\Notifications\Invoicepaid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InvoicesPaymentsController extends Controller
 {
@@ -38,7 +42,7 @@ class InvoicesPaymentsController extends Controller
             $difference = $total - ($request->payment_amount + $invoices->invoice_payment->sum('payment_amount'));
             $validatedData['difference'] = $difference;
             $validatedData['user_id'] = auth()->id();
-            InvoicesPayments::create($validatedData);
+            $payment = InvoicesPayments::create($validatedData);
             if ($difference <= 0) {
                 $invoices->update(['status' => 1]);
             }else{
@@ -48,6 +52,8 @@ class InvoicesPaymentsController extends Controller
             DB::commit();
 
 //            dd($invoices);
+            Notification::send(auth()->user(),new Invoicepaid($payment));
+            dd($payment);
 
             return redirect()->route('invoices.show', $invoices)->with('success', 'تم تعديل الفاتورة بنجاح');
         } catch (\Exception $e) {
@@ -114,5 +120,9 @@ class InvoicesPaymentsController extends Controller
     public function destroy(InvoicesPayments $invoicesPayments)
     {
         //
+    }
+    public function export($invoiceId)
+    {
+        return Excel::download(new InvoicesPaymentsExport($invoiceId),'invoicesPayments.xlsx');
     }
 }
