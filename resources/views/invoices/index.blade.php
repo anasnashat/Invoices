@@ -76,12 +76,17 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-4 col-xl-3">
+                <div class="col-sm-6 col-md-4 col-xl-3 justify-content-between">
                     <a class="modal-effect btn btn-success btn-block d-flex justify-content-between align-items-center"   href="{{ route('invoices.create') }}">
                         <span class="mr-2">اضافه فاتوره</span> <!-- Text -->
                         <i class="fas fa-plus-circle ml-2"></i> <!-- Icon -->
                     </a>
+                    <a class="modal-effect btn btn-success btn-block d-flex justify-content-between align-items-center"   href="{{ route('invoices.export') }}">
+                        <span class="mr-2">تصدير الي اكسيل</span> <!-- Text -->
+                        <i class="fas fa-file-excel ml-2"></i> <!-- Icon -->
+                    </a>
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example1" class="table text-md-nowrap">
@@ -132,6 +137,12 @@
                                             <div class="mr-3">
                                                 <a class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center"  href="{{ route('payment.create',$invoice) }}" >
                                                     <span> دفع الفاتوره</span>
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                            <div class="mr-3">
+                                                <a class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center"  href="{{ route('invoices.print',$invoice) }}" >
+                                                    <span> طباعه الفاتوره</span>
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </div>
