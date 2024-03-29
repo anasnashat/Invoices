@@ -205,9 +205,10 @@
                             <label for="descriptionField">وصف المنتج/ملاحظات</label>
                             <textarea class="form-control" name="description" id="descriptionField" rows="3" placeholder="اضف وصف للمنتج"></textarea>
                         </div>
+
                         <div class="form-group">
-                            <label for="sectionField{{ $product->id }}">قسم المنتج</label>
-                            <select class="form-control" name="section_id" id="sectionField{{ $product->id }}">
+                            <label for="sectionField1">قسم المنتج</label>
+                            <select class="form-control" name="section_id" id="sectionField1">
                                 @foreach($sections as $section)
                                     <option value="{{ $section->id }}" {{ $product->section_id == $section->id ? 'selected' : '' }}>{{ $section->name }}</option>
                                 @endforeach
