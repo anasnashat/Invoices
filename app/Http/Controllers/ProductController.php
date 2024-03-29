@@ -17,6 +17,8 @@ class ProductController extends Controller
     {
         $products = Product::with('section')->paginate(20);
         $sections = Section::all();
+//        dd($sections);
+
         return view('products.index',['products' => $products, 'sections' => $sections]);
     }
 

@@ -12,10 +12,9 @@ use App\Models\InvoicesPayments;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::fallback(function () {
+    return redirect()->route('dashboard');
 });
-
 Route::get('/dashboard', function () {
     return view('index');
 })->middleware(['auth', 'verified'])->name('dashboard');
