@@ -23,13 +23,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
+
 
 Route::get('admin/{page}',[AdminController::class,'index']);
 
 Route::resource('invoices', InvoicesController::class);
-
-
 
 Route::prefix('invoice/{invoices}/payment')->group(function () {
     Route::get('create', [InvoicesPaymentsController::class, 'create'])->name('payment.create');
@@ -51,6 +50,6 @@ Route::get('/download/{file_folder}/{filename}', [InvoicesAttachmentController::
 Route::get('invoices/payments/excel/{invoiceId}',[InvoicesPaymentsController::class,'export'])->name('payments.export');
 Route::get('invoices/payments/excel',[InvoicesController::class,'export'])->name('invoices.export');
 
-
+});
 
 require __DIR__.'/auth.php';
