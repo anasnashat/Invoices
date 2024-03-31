@@ -38,4 +38,8 @@ class AttachmentRequest extends FormRequest
             'attachment.max' => 'يجب ألا يتجاوز حجم المرفق 2048 كيلوبايت.',
         ];
     }
+
+
+
 }
+
