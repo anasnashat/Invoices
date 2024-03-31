@@ -26,6 +26,12 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        // Check if the authenticated user's status is not_active
+        if (Auth::user()->status === 'not_active') {
+            Auth::logout();
+            return redirect()->route('login')->with('error', 'Your account is not active.');
+        }
+
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard', absolute: false));
