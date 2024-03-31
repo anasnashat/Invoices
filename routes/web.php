@@ -6,7 +6,9 @@ use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesPaymentsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\UserController;
 use App\Models\InvoicesAttachment;
 use App\Models\InvoicesPayments;
 use App\Models\Product;
@@ -41,6 +43,25 @@ Route::prefix('invoice/{invoices}/payment')->group(function () {
 Route::resource('attachment', InvoicesAttachmentController::class);
 Route::resource('sections', SectionController::class);
 Route::resource('products', ProductController::class);
+Route::resource('users', UserController::class);
+Route::middleware(['permission:عرض صلاحية'])->group(function () {
+    Route::get('roles', [RolesController::class, 'index'])->name('roles.index');
+});
+Route::get('roles/show/{id}', [RolesController::class, 'show'])->name('roles.show');
+
+Route::middleware(['permission:اضافة صلاحية'])->group(function () {
+    Route::get('roles/create', [RolesController::class, 'create'])->name('roles.create');
+    Route::post('roles', [RolesController::class, 'store'])->name('roles.store');
+});
+
+Route::middleware(['permission:تعديل صلاحية'])->group(function () {
+    Route::get('roles/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::put('roles/{role}', [RolesController::class, 'update'])->name('roles.update');
+});
+
+Route::middleware(['permission:حذف صلاحية'])->group(function () {
+    Route::delete('roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
+});
 
 
 Route::get('section/{id}',[SectionController::class,'getProducts']);
