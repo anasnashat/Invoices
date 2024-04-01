@@ -6,6 +6,7 @@ use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesPaymentsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\UserController;
@@ -70,6 +71,14 @@ Route::get('/download/{file_folder}/{filename}', [InvoicesAttachmentController::
 
 Route::get('invoices/payments/excel/{invoiceId}',[InvoicesPaymentsController::class,'export'])->name('payments.export');
 Route::get('invoices/payments/excel',[InvoicesController::class,'export'])->name('invoices.export');
+
+
+Route::prefix('reports/')->group(function (){
+    Route::get('invoices',[ReportsController::class,'invoices'])->name('reports.invoices');
+    Route::post('invoices',[ReportsController::class,'invoices_filter'])->name('reports.invoices_filter');
+    Route::get('customers',[ReportsController::class,'customers'])->name('reports.customers');
+    Route::post('customers',[ReportsController::class,'customers_filter'])->name('reports.customers_filter');
+});
 
 });
 
