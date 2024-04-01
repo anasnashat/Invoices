@@ -154,4 +154,5 @@ class InvoicesController extends Controller
        return Excel::download(new InvoicesExport,'invoices.xlsx');
     }
 
+
 }
