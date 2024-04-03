@@ -46,6 +46,7 @@ class ReportsController extends Controller
     }
     public function customers_filter(Request $request)
     {
+
         $sections = Section::all();
 
         $query = Invoices::query();
