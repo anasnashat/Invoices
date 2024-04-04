@@ -47,7 +47,7 @@
             <div class="card overflow-hidden sales-card bg-danger-gradient">
                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">عدد الفواتير غير المدفوعه</h6>
+                        <h6 class="mb-3 tx-12 text-white">  اجمالي الفواتير غير المدفوعه</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
@@ -57,7 +57,7 @@
                             </div>
                             <span class="float-right my-auto mr-auto">
 											<i class="fas fa-arrow-circle-down text-white"></i>
-											<span class="text-white op-7"> {{round(\App\Models\Invoices::where('status',0)->count() / \App\Models\Invoices::count()) *100 }}%</span>
+											<span class="text-white op-7"> {{round((\App\Models\Invoices::where('status',0)->count() / \App\Models\Invoices::count()),2) * 100 }}%</span>
 										</span>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
             <div class="card overflow-hidden sales-card bg-success-gradient">
                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">عدد الفواتير  المدفوعه</h6>
+                        <h6 class="mb-3 tx-12 text-white">  اجمالي الفواتير  المدفوعه</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
@@ -79,7 +79,7 @@
                             </div>
                             <span class="float-right my-auto mr-auto">
 											<i class="fas fa-arrow-circle-up text-white"></i>
-											<span class="text-white op-7"> {{round(\App\Models\Invoices::where('status',1)->count() / \App\Models\Invoices::count()) *100 }}%</span>
+											<span class="text-white op-7"> {{round((\App\Models\Invoices::where('status',1)->count() / \App\Models\Invoices::count()),2) *100 }}%</span>
 										</span>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
             <div class="card overflow-hidden sales-card bg-warning-gradient">
                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">عدد الفواتير  المدفوعه جزئيا</h6>
+                        <h6 class="mb-3 tx-12 text-white"> اجمالي الفواتير  المدفوعه جزئيا</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
@@ -101,7 +101,7 @@
                             </div>
                             <span class="float-right my-auto mr-auto">
 											<i class="fas fa-arrow-circle-down text-white"></i>
-											<span class="text-white op-7"> {{round(\App\Models\Invoices::where('status',2)->count() / \App\Models\Invoices::count()) *100 }}%</span>
+											<span class="text-white op-7"> {{round((\App\Models\Invoices::where('status',2)->count() / \App\Models\Invoices::count()),2) *100 }}%</span>
 										</span>
                         </div>
                     </div>
