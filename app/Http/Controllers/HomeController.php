@@ -20,21 +20,21 @@ class HomeController extends Controller
             $nspainvoices2=0;
         }
         else{
-            $nspainvoices2 = $count_invoices2/ $count_all*100;
+            $nspainvoices2 = round(($count_invoices2/ $count_all*100),2);
         }
 
         if($count_invoices1 == 0){
             $nspainvoices1=0;
         }
         else{
-            $nspainvoices1 = $count_invoices1/ $count_all*100;
+            $nspainvoices1 = round(( $count_invoices1/ $count_all*100),2);
         }
 
         if($count_invoices3 == 0){
             $nspainvoices3=0;
         }
         else{
-            $nspainvoices3 = $count_invoices3/ $count_all*100;
+            $nspainvoices3 = round(($count_invoices3/ $count_all*100),2);
         }
 
         $chartjs = app()->chartjs
