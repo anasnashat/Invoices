@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('css')
     <!--  Owl-carousel css-->
-    <link href="{{ asset('assets/plugins/owl-carousel/owl.carousel.css' )}}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/owl-carousel/owl.carousel.css' )}}" rel="stylesheet"/>
     <!-- Maps css -->
     <link href="{{ asset('assets/plugins/jqvmap/jqvmap.min.css')}} " rel="stylesheet">
 @endsection
@@ -33,7 +33,8 @@
                                     ${{number_format(\App\Models\Invoices::sum('total'),2)}}
 
                                 </h4>
-                                <p class="mb-0 tx-12 text-white op-7"> عدد الفواتير: {{ \App\Models\Invoices::count('id') }}</p>
+                                <p class="mb-0 tx-12 text-white op-7"> عدد
+                                    الفواتير: {{ \App\Models\Invoices::count('id') }}</p>
                             </div>
                             <span class="float-right my-auto mr-auto">
 											<span class="text-white op-7"> 100%</span>
@@ -48,13 +49,15 @@
             <div class="card overflow-hidden sales-card bg-danger-gradient">
                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">  اجمالي الفواتير غير المدفوعه</h6>
+                        <h6 class="mb-3 tx-12 text-white"> اجمالي الفواتير غير المدفوعه</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
                             <div class="">
-                                <h4 class="tx-20 font-weight-bold mb-1 text-white">${{ number_format(\App\Models\Invoices::where('status',0)->sum('total'),2) }}</h4>
-                                <p class="mb-0 tx-12 text-white op-7"> عدد الفواتير: {{ \App\Models\Invoices::where('status',0)->count()  }}</p>
+                                <h4 class="tx-20 font-weight-bold mb-1 text-white">
+                                    ${{ number_format(\App\Models\Invoices::where('status',0)->sum('total'),2) }}</h4>
+                                <p class="mb-0 tx-12 text-white op-7"> عدد
+                                    الفواتير: {{ \App\Models\Invoices::where('status',0)->count()  }}</p>
                             </div>
                             <span class="float-right my-auto mr-auto">
 											<i class="fas fa-arrow-circle-down text-white"></i>
@@ -70,13 +73,15 @@
             <div class="card overflow-hidden sales-card bg-success-gradient">
                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">  اجمالي الفواتير  المدفوعه</h6>
+                        <h6 class="mb-3 tx-12 text-white"> اجمالي الفواتير المدفوعه</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
                             <div class="">
-                                <h4 class="tx-20 font-weight-bold mb-1 text-white">${{ number_format(\App\Models\Invoices::where('status',1)->sum('total'),2) }}</h4>
-                                <p class="mb-0 tx-12 text-white op-7"> عدد الفواتير: {{ \App\Models\Invoices::where('status',1)->count()  }}</p>
+                                <h4 class="tx-20 font-weight-bold mb-1 text-white">
+                                    ${{ number_format(\App\Models\Invoices::where('status',1)->sum('total'),2) }}</h4>
+                                <p class="mb-0 tx-12 text-white op-7"> عدد
+                                    الفواتير: {{ \App\Models\Invoices::where('status',1)->count()  }}</p>
                             </div>
                             <span class="float-right my-auto mr-auto">
 											<i class="fas fa-arrow-circle-up text-white"></i>
@@ -92,13 +97,15 @@
             <div class="card overflow-hidden sales-card bg-warning-gradient">
                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white"> اجمالي الفواتير  المدفوعه جزئيا</h6>
+                        <h6 class="mb-3 tx-12 text-white"> اجمالي الفواتير المدفوعه جزئيا</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
                             <div class="">
-                                <h4 class="tx-20 font-weight-bold mb-1 text-white">${{ number_format(\App\Models\Invoices::where('status',2)->sum('total'),2) }}</h4>
-                                <p class="mb-0 tx-12 text-white op-7"> عدد الفواتير: {{ \App\Models\Invoices::where('status',2)->count()  }}</p>
+                                <h4 class="tx-20 font-weight-bold mb-1 text-white">
+                                    ${{ number_format(\App\Models\Invoices::where('status',2)->sum('total'),2) }}</h4>
+                                <p class="mb-0 tx-12 text-white op-7"> عدد
+                                    الفواتير: {{ \App\Models\Invoices::where('status',2)->count()  }}</p>
                             </div>
                             <span class="float-right my-auto mr-auto">
 											<i class="fas fa-arrow-circle-down text-white"></i>
