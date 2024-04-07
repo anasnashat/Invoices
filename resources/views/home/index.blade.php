@@ -37,8 +37,8 @@
                                     الفواتير: {{ \App\Models\Invoices::count('id') }}</p>
                             </div>
                             <span class="float-right my-auto mr-auto">
-											<span class="text-white op-7"> 100%</span>
-										</span>
+                                <span class="text-white op-7"> 100%</span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -60,9 +60,9 @@
                                     الفواتير: {{ \App\Models\Invoices::where('status',0)->count()  }}</p>
                             </div>
                             <span class="float-right my-auto mr-auto">
-											<i class="fas fa-arrow-circle-down text-white"></i>
-											<span class="text-white op-7"> {{round((\App\Models\Invoices::where('status',0)->count() / \App\Models\Invoices::count()),2) * 100 }}%</span>
-										</span>
+                                <i class="fas fa-arrow-circle-down text-white"></i>
+                                <span class="text-white op-7"> {{round((\App\Models\Invoices::where('status',0)->count() / \App\Models\Invoices::count()),2) * 100 }}%</span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -84,9 +84,9 @@
                                     الفواتير: {{ \App\Models\Invoices::where('status',1)->count()  }}</p>
                             </div>
                             <span class="float-right my-auto mr-auto">
-											<i class="fas fa-arrow-circle-up text-white"></i>
-											<span class="text-white op-7"> {{round((\App\Models\Invoices::where('status',1)->count() / \App\Models\Invoices::count()),2) *100 }}%</span>
-										</span>
+                                <i class="fas fa-arrow-circle-up text-white"></i>
+                                <span class="text-white op-7"> {{round((\App\Models\Invoices::where('status',1)->count() / \App\Models\Invoices::count()),2) *100 }}%</span>
+                            </span>
                         </div>
                     </div>
                 </div>

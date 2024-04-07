@@ -6,16 +6,30 @@ use App\Http\Controllers\Controller;
 use App\Models\Invoices;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ReportsController extends Controller
 {
+    /**
+     * return to the reports view for invoices section
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     */
 
-    public function invoices()
+    public function invoices(): View
     {
        return view('reports.invoices');
     }
-    public function invoices_filter(Request $request)
+
+
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @throws \Illuminate\Contracts\
+     * @done make filter for the all invoices from date to date and with the invoices number
+     */
+    public function invoices_filter(Request $request): View
     {
 
         $query = Invoices::query();
@@ -37,14 +51,23 @@ class ReportsController extends Controller
 //        dd($query, $invoices,$request);
 
         return view('reports.invoices', compact('invoices'));
-
     }
-    public function customers()
+
+    /**
+     * @return View with all section information
+     *
+     */
+    public function customers(): View
     {
         $sections = Section::all();
         return view('reports.customers',compact('sections'));
     }
-    public function customers_filter(Request $request)
+
+    /**
+     * @param Request $request
+     * @return View with the filtered invoices from date to date and with the invoice number
+     */
+    public function customers_filter(Request $request): View
     {
         $sections = Section::all();
 
