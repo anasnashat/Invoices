@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SectionRequest;
 use App\Models\Section;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; // Import DB facade
+use Illuminate\Support\Facades\DB;
+
+// Import DB facade
 
 class SectionController extends Controller
 {

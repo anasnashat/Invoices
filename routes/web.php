@@ -11,9 +11,6 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\UserController;
-use App\Models\InvoicesAttachment;
-use App\Models\InvoicesPayments;
-use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 Route::fallback(function () {

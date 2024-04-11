@@ -7,7 +7,6 @@ use App\Http\Requests\InvoicesPaymentsRequest;
 use App\Models\Invoices;
 use App\Models\InvoicesPayments;
 use App\Notifications\Invoicepaid;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Maatwebsite\Excel\Facades\Excel;

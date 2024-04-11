@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Invoices;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class ReportsController extends Controller
 {

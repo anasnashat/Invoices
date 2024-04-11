@@ -6,10 +6,8 @@ use App\Exports\InvoicesExport;
 use App\Http\Requests\InvoicesRequest;
 use App\Models\Invoices;
 use App\Models\InvoicesAttachment;
-use App\Models\Product;
 use App\Models\Section;
 use App\Notifications\InvoiceAdd;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,19 +21,18 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        $invoices =QueryBuilder::for(Invoices::class)
+        $invoices = QueryBuilder::for(Invoices::class)
             ->allowedFilters(['status'])
-            ->allowedSorts(['invoice_number','total'])
+            ->allowedSorts(['invoice_number', 'total'])
             ->with('product')
             ->with('section')
             ->with('invoice_attachment.user')
             ->with('invoice_payment')->paginate(25);
 //        dd($invoices);
-        return view('invoices.index',compact('invoices'));
+        return view('invoices.index', compact('invoices'));
 
 
     }
-
 
 
     /**
@@ -61,7 +58,7 @@ class InvoicesController extends Controller
             $validatedData['user_id'] = auth()->id();
             $invoice_created = Invoices::create($validatedData);
             if ($request->file('attachment')) {
-                $attachment['invoice_id'] =  $invoice_created->id;
+                $attachment['invoice_id'] = $invoice_created->id;
                 $attachment['user_id'] = auth()->id();
                 $attachmentPath = $request->file('attachment')
                     ->storeAs(
@@ -73,12 +70,12 @@ class InvoicesController extends Controller
             }
             DB::commit();
             $user = auth()->user();
-            Notification::send($user,new InvoiceAdd($invoice_created));
-            return redirect()->route('invoices.index')->with('success','تم اضافه الفاتوره بنجاح');
+            Notification::send($user, new InvoiceAdd($invoice_created));
+            return redirect()->route('invoices.index')->with('success', 'تم اضافه الفاتوره بنجاح');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('invoices.index')->with('error','حدث خطا اثناء اضافه الفاتوره');
+            return redirect()->route('invoices.index')->with('error', 'حدث خطا اثناء اضافه الفاتوره');
         }
     }
 
@@ -97,7 +94,7 @@ class InvoicesController extends Controller
     {
         $sections = Section::all();
 //        dd($invoices);
-        return view('invoices.edite', ['sections'=>$sections, 'invoices'=>$invoice ]);
+        return view('invoices.edite', ['sections' => $sections, 'invoices' => $invoice]);
     }
 
     /**
@@ -105,8 +102,8 @@ class InvoicesController extends Controller
      */
     public function update(InvoicesRequest $request, Invoices $invoice)
     {
+        $validatedData = $request->validated();
         try {
-            $validatedData = $request->validated();
 
             DB::beginTransaction();
 
@@ -134,22 +131,22 @@ class InvoicesController extends Controller
 //            dd($invoice['invoice_attachment']);
             $invoice->delete();
             DB::commit();
-            return redirect()->route('invoices.index')->with('success','تم حذف الفاتوره بنجاح');
+            return redirect()->route('invoices.index')->with('success', 'تم حذف الفاتوره بنجاح');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('invoices.index')->with('error','حدث خطا اثناء حذف الفاتوره');
+            return redirect()->route('invoices.index')->with('error', 'حدث خطا اثناء حذف الفاتوره');
         }
     }
 
     public function printInvoice(Invoices $invoices)
     {
-        return view('invoices.print_invoice',compact('invoices'));
+        return view('invoices.print_invoice', compact('invoices'));
     }
 
     public function export()
     {
-       return Excel::download(new InvoicesExport,'invoices.xlsx');
+        return Excel::download(new InvoicesExport, 'invoices.xlsx');
     }
 
 

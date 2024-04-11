@@ -1,10 +1,9 @@
 @extends('layouts.master')
 @section('css')
 
-
-    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet"/>
     <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet"/>
     <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
@@ -34,7 +33,8 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <a class="modal-effect btn btn-success btn-block d-flex justify-content-between align-items-center" data-effect="effect-scale" data-toggle="modal" href="#modaldemo1">
+                    <a class="modal-effect btn btn-success btn-block d-flex justify-content-between align-items-center"
+                       data-effect="effect-scale" data-toggle="modal" href="#modaldemo1">
                         <span class="mr-2">اضافه قسم</span> <!-- Text -->
                         <i class="fas fa-plus-circle ml-2"></i> <!-- Icon -->
                     </a>
@@ -59,13 +59,19 @@
                                     <td>
                                         <div class="row">
                                             <div class="col-6 pr-1">
-                                                <button class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center mr-1" data-effect="effect-scale" data-toggle="modal" data-target="#modaledite{{ $section->id }}">
+                                                <button
+                                                    class="modal-effect btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center mr-1"
+                                                    data-effect="effect-scale" data-toggle="modal"
+                                                    data-target="#modaledite{{ $section->id }}">
                                                     <span>تعديل</span>
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                             </div>
                                             <div class="col-6">
-                                                <button class="modal-effect btn btn-outline-danger btn-sm d-flex justify-content-between align-items-center ml-1" data-effect="effect-scale" data-toggle="modal" data-target="#modaldelete{{ $section->id }}">
+                                                <button
+                                                    class="modal-effect btn btn-outline-danger btn-sm d-flex justify-content-between align-items-center ml-1"
+                                                    data-effect="effect-scale" data-toggle="modal"
+                                                    data-target="#modaldelete{{ $section->id }}">
                                                     <span>حذف</span>
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
@@ -73,51 +79,67 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modaledite{{ $section->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefault" aria-hidden="true">
+                                <div class="modal fade" id="modaledite{{ $section->id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalDefault" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h6 class="modal-title">تعديل قسم</h6>
-                                                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                <button aria-label="Close" class="close" data-dismiss="modal"
+                                                        type="button"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form method="post" action="{{ route('sections.update', $section->id) }}">
+                                                <form method="post"
+                                                      action="{{ route('sections.update', $section->id) }}">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="form-group">
                                                         <label for="nameField{{ $section->id }}">اسم القسم</label>
-                                                        <input type="text" class="form-control" value="{{ $section->name }}" name="name" id="nameField{{ $section->id }}" placeholder="اسم القسم">
+                                                        <input type="text" class="form-control"
+                                                               value="{{ $section->name }}" name="name"
+                                                               id="nameField{{ $section->id }}" placeholder="اسم القسم">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="descriptionField{{ $section->id }}">وصف القسم/ملاحظات</label>
-                                                        <textarea class="form-control" name="description" id="descriptionField{{ $section->id }}" rows="3" placeholder="اضف وصف للقسم">{{ $section->description }}</textarea>
+                                                        <label for="descriptionField{{ $section->id }}">وصف
+                                                            القسم/ملاحظات</label>
+                                                        <textarea class="form-control" name="description"
+                                                                  id="descriptionField{{ $section->id }}" rows="3"
+                                                                  placeholder="اضف وصف للقسم">{{ $section->description }}</textarea>
                                                     </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button class="btn ripple btn-success" type="submit">تعديل القسم</button>
-                                                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">اغلاق</button>
+                                                <button class="btn ripple btn-success" type="submit">تعديل القسم
+                                                </button>
+                                                <button class="btn ripple btn-danger" data-dismiss="modal"
+                                                        type="button">اغلاق
+                                                </button>
                                             </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal fade" id="modaldelete{{ $section->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefault" aria-hidden="true">
+                                <div class="modal fade" id="modaldelete{{ $section->id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalDefault" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h6 class="modal-title">حذف قسم</h6>
-                                                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                <button aria-label="Close" class="close" data-dismiss="modal"
+                                                        type="button"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <div class="alert alert-danger "> هل انت متاكد من حذف هذا القسم </div>
+                                                <div class="alert alert-danger "> هل انت متاكد من حذف هذا القسم</div>
 
-                                                <form method="post" action="{{ route('sections.destroy', $section->id) }}">
+                                                <form method="post"
+                                                      action="{{ route('sections.destroy', $section->id) }}">
                                                 @csrf
                                                 @method('delete')
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn ripple btn-danger" type="submit">حذف القسم</button>
-                                                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">اغلاق</button>
+                                                <button class="btn ripple btn-secondary" data-dismiss="modal"
+                                                        type="button">اغلاق
+                                                </button>
                                             </div>
                                             </form>
                                         </div>
@@ -144,29 +166,32 @@
             </div>
         </div>
     </div>
-        <div class="modal" id="modaldemo1">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content modal-content-demo">
-                    <div class="modal-header">
-                        <h6 class="modal-title">اضافه قسم</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" action="{{ route('sections.store') }}">
-                            @csrf
-                            <div class="form-group">
-                                <label for="nameField">اسم القسم</label>
-                                <input type="text" class="form-control" name="name" id="nameField" placeholder="اسم القسم">
-                            </div>
-                            <div class="form-group">
-                                <label for="descriptionField">وصف القسم/ملاحظات</label>
-                                <textarea class="form-control" name="description" id="descriptionField" rows="3" placeholder="اضف وصف للقسم"></textarea>
-                            </div>
+    <div class="modal" id="modaldemo1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">اضافه قسم</h6>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ route('sections.store') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="nameField">اسم القسم</label>
+                            <input type="text" class="form-control" name="name" id="nameField" placeholder="اسم القسم">
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionField">وصف القسم/ملاحظات</label>
+                            <textarea class="form-control" name="description" id="descriptionField" rows="3"
+                                      placeholder="اضف وصف للقسم"></textarea>
+                        </div>
 
 
-                            <div class="modal-footer">
-                                <button class="btn ripple btn-success" type="submit">حفظ القسم</button>
-                                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">اغلاق</button>
-                            </div>
+                        <div class="modal-footer">
+                            <button class="btn ripple btn-success" type="submit">حفظ القسم</button>
+                            <button class="btn ripple btn-danger" data-dismiss="modal" type="button">اغلاق</button>
+                        </div>
                     </form>
 
                 </div>
@@ -174,8 +199,6 @@
 
 
         </div>
-
-
 
 
         <!-- End Basic modal -->
@@ -193,7 +216,7 @@
 @section('js')
     <!-- Add your JS script links here -->
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#example1').DataTable({
                 paging: true, // Enable DataTables pagination
                 searching: true, // Enable search
