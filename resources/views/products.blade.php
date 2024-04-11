@@ -233,7 +233,7 @@
 
 
 
-							
+
 							<div class="col-md-6 col-lg-6 col-xl-4  col-sm-6">
 								<div class="card">
 									<div class="card-body">
