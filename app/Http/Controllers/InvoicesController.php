@@ -59,15 +59,13 @@ class InvoicesController extends Controller
             DB::beginTransaction();
             $validatedData = $request->validated();
             $validatedData['user_id'] = auth()->id();
-
             $invoice_created = Invoices::create($validatedData);
-//        dd($invoice_created);
             if ($request->file('attachment')) {
                 $attachment['invoice_id'] =  $invoice_created->id;
                 $attachment['user_id'] = auth()->id();
                 $attachmentPath = $request->file('attachment')
                     ->storeAs(
-                        'attachment/' . $request->invoice_number,
+                        'attachment/' . $invoice_created->invoice_number,
                         $request->file('attachment')->getClientOriginalName()
                     );
                 InvoicesAttachment::create($attachment);
