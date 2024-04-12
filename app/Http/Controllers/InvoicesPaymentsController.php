@@ -27,6 +27,7 @@ class InvoicesPaymentsController extends Controller
 
     public function index()
     {
+
         //
 
     }
