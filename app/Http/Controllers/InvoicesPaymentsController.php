@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Exports\InvoicesPaymentsExport;
+use App\Http\Middleware\InvoicesCheckDifferenceMiddleware;
 use App\Http\Requests\InvoicesPaymentsRequest;
 use App\Models\Invoices;
 use App\Models\InvoicesPayments;
 use App\Notifications\Invoicepaid;
+use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class InvoicesPaymentsController extends Controller
@@ -16,16 +19,24 @@ class InvoicesPaymentsController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct(Middleware $middleware)
+    {
+        $middleware->append(InvoicesCheckDifferenceMiddleware::class);
+    }
+
     public function index()
     {
         //
+
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Invoices $invoices)
+    public function create(Invoices $invoices, Request $request)
     {
+//        dd($request->invoices->status == 1);
         return view('invoices.store_status', compact('invoices'));
     }
 
@@ -36,24 +47,29 @@ class InvoicesPaymentsController extends Controller
     {
         $validatedData = $request->validated();
         try {
-            DB::beginTransaction();
-            $total = $invoices->total;
-            $difference = $total - ($request->payment_amount + $invoices->invoice_payment->sum('payment_amount'));
-            $validatedData['difference'] = $difference;
-            $validatedData['user_id'] = auth()->id();
-            $payment = InvoicesPayments::create($validatedData);
-            if ($difference <= 0) {
-                $invoices->update(['status' => 1]);
+            if( $invoices->difference > 0 || $invoices->difference == null) {
+                DB::beginTransaction();
+                $total = $invoices->total;
+                $difference = $total - ($request->payment_amount + $invoices->invoice_payment->sum('payment_amount'));
+                $validatedData['difference'] = $difference;
+                $validatedData['user_id'] = auth()->id();
+                $payment = InvoicesPayments::create($validatedData);
+                if ($difference <= 0) {
+                    $invoices->update(['status' => 1]);
+                }else{
+                    $invoices->update(['status' => 2]);
+                    $invoices->save();
+                }
+                DB::commit();
+                Notification::send(auth()->user(),new Invoicepaid($payment));
+
+                return redirect()->route('invoices.show', $invoices)->with('success', 'تم دفع دفعه الفاتورة بنجاح');
             }else{
-                $invoices->update(['status' => 2]);
-                $invoices->save();
+                return redirect()->route('invoices.show', $invoices)->with('error', ' الفاتورة مدفوعه بالكامل');
+
             }
-            DB::commit();
 
-//            dd($invoices);
-            Notification::send(auth()->user(),new Invoicepaid($payment));
 
-            return redirect()->route('invoices.show', $invoices)->with('success', 'تم تعديل الفاتورة بنجاح');
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -86,23 +102,29 @@ class InvoicesPaymentsController extends Controller
     {
         $validatedData = $request->validated();
         try {
-            DB::beginTransaction();
-            $total = $invoices->total;
-            $difference = $total - ($request->payment_amount + $invoices->invoice_payment->sum('payment_amount'));
+            if( $invoices->difference() > 0 || $invoices->difference == null) {
+
+                DB::beginTransaction();
+                $total = $invoices->total;
+                $difference = $total - ($request->payment_amount + $invoices->invoice_payment->sum('payment_amount'));
 //            dd($difference);
 //            dd($invoices->total);
 
-            if ($difference <= 0) {
-                $invoices->update(['status' => 1]);
-            }else{
-                $validatedData['difference'] = $difference;
-                $validatedData['user_id'] = auth()->id();
-                $invoices_payments->update($validatedData);
-                $invoices->update(['status' => 2]);
-            }
-            DB::commit();
+                if ($difference <= 0) {
+                    $invoices->update(['status' => 1]);
+                } else {
+                    $validatedData['difference'] = $difference;
+                    $validatedData['user_id'] = auth()->id();
+                    $invoices_payments->update($validatedData);
+                    $invoices->update(['status' => 2]);
+                }
+                DB::commit();
 
-            return redirect()->route('invoices.show', $invoices)->with('success', 'تم تعديل الفاتورة بنجاح');
+                return redirect()->route('invoices.show', $invoices)->with('success', 'تم تعديل الفاتورة بنجاح');
+            }else{
+                return redirect()->route('invoices.show', $invoices)->with('error', ' الفاتورة مدفوعه بالكامل');
+
+            }
         } catch (\Exception $e) {
             DB::rollBack();
 
