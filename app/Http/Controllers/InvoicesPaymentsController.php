@@ -30,6 +30,7 @@ class InvoicesPaymentsController extends Controller
 
         //
 
+
     }
 
     /**
